@@ -110,10 +110,19 @@ export default class EmberTHead extends Component {
     * "equal-column": extra space is distributed equally among all columns
     * "first-column": extra space is added into the first column.
     * "last-column": extra space is added into the last column.
+    * "nth-column": extra space is added into the column defined by `fillColumnIndex`.
   */
   @argument({ defaultIfUndefined: true })
   @type('string')
   fillMode = FILL_MODE.EQUAL_COLUMN;
+
+  /**
+    A configuration that controls how which column shinks (or extends) when `fillMode` is
+    'nth-column'. This is zero indexed.
+  */
+  @argument
+  @type(optional('string'))
+  fillColumnIndex = null;
 
   /**
     Sets a constraint on the table's size, such that it must be greater than, less
@@ -184,6 +193,7 @@ export default class EmberTHead extends Component {
     this.addObserver('sorts', this._updateColumnTree);
     this.addObserver('columns', this._updateColumnTree);
     this.addObserver('fillMode', this._updateColumnTree);
+    this.addObserver('fillColumnIndex', this._updateColumnTree);
     this.addObserver('resizeMode', this._updateColumnTree);
     this.addObserver('widthConstraint', this._updateColumnTree);
 
@@ -203,6 +213,7 @@ export default class EmberTHead extends Component {
     this.columnTree.set('sorts', this.get('sorts'));
     this.columnTree.set('columns', this.get('columns'));
     this.columnTree.set('fillMode', this.get('fillMode'));
+    this.columnTree.set('fillColumnIndex', this.get('fillColumnIndex'));
     this.columnTree.set('resizeMode', this.get('resizeMode'));
     this.columnTree.set('widthConstraint', this.get('widthConstraint'));
 
@@ -238,7 +249,7 @@ export default class EmberTHead extends Component {
   @notEmpty('onUpdateSorts')
   enableSort;
 
-  @computed('columnTree.rows.[]', 'sorts.[]', 'headerActions.[]', 'fillMode')
+  @computed('columnTree.rows.[]', 'sorts.[]', 'headerActions.[]', 'fillMode', 'fillColumnIndex')
   get wrappedRows() {
     let rows = this.get('columnTree.rows');
     let sorts = this.get('sorts');

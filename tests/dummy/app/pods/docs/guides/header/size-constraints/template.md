@@ -73,6 +73,8 @@ constraint. The options are:
 
 * `last-column`: Puts the delta in the first column
 
+* `nth-column`: Puts the delta in the nth column as defined by `fillColumnIndex`
+
 {{#docs-demo as |demo|}}
   {{#demo.example name='docs-example-header-fill-mode'}}
     {{! BEGIN-SNIPPET docs-example-header-fill-mode.hbs }}
@@ -91,6 +93,10 @@ constraint. The options are:
       {{radio-button name='fill-mode' value='last-column' groupValue=fillMode}}
     </label>
 
+    <label>
+      nth-column
+      {{radio-button name='fill-mode' value='nth-column' groupValue=fillMode}}
+    </label>
 
     <div class="resize-container">
       <EmberTable as |t|>
@@ -99,6 +105,7 @@ constraint. The options are:
           @widthConstraint='eq-container'
           @resizeMode='fluid'
           @fillMode={{fillMode}}
+          @fillColumnIndex=1
         />
 
         <t.body @rows={{rows}} />
