@@ -5,10 +5,10 @@ import { computed } from '@ember-decorators/object';
 import { attribute, classNames } from '@ember-decorators/component';
 import { service } from '@ember-decorators/service';
 
-import {
-  setupLegacyStickyPolyfill,
-  teardownLegacyStickyPolyfill,
-} from '../../-private/sticky/legacy-sticky-polyfill';
+// import {
+//   setupLegacyStickyPolyfill,
+//   teardownLegacyStickyPolyfill,
+// } from '../../-private/sticky/legacy-sticky-polyfill';
 import {
   setupTableStickyPolyfill,
   teardownTableStickyPolyfill,
@@ -50,9 +50,9 @@ export default class EmberTable extends Component {
 
     let browser = this.get('userAgent.browser');
 
-    if (browser.isIE) {
-      setupLegacyStickyPolyfill(this.element);
-    } else {
+    // if (browser.isIE) {
+    //   setupLegacyStickyPolyfill(this.element);
+    // } else {
       let thead = this.element.querySelector('thead');
       let tfoot = this.element.querySelector('tfoot');
 
@@ -62,15 +62,15 @@ export default class EmberTable extends Component {
       if (tfoot) {
         setupTableStickyPolyfill(tfoot);
       }
-    }
+    // }
   }
 
   willDestroyElement() {
     let browser = this.get('userAgent.browser');
 
-    if (browser.isIE) {
-      teardownLegacyStickyPolyfill(this.element);
-    } else {
+    // if (browser.isIE) {
+    //   teardownLegacyStickyPolyfill(this.element);
+    // } else {
       let thead = this.element.querySelector('thead');
       let tfoot = this.element.querySelector('tfoot');
 
@@ -81,7 +81,7 @@ export default class EmberTable extends Component {
       if (tfoot) {
         teardownTableStickyPolyfill(this.element.querySelector('tfoot'));
       }
-    }
+    // }
 
     super.willDestroyElement(...arguments);
   }
